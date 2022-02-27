@@ -1,12 +1,22 @@
 import React from 'react'
-import { HStack, Button, Input } from "@chakra-ui/react"
+import { HStack, Button, Input, useToast } from "@chakra-ui/react"
 import { nanoid } from 'nanoid';
 
 const AddTodo = ({ addTodo }) => {
     const [content, setContent] = React.useState('');
+    const toast = useToast();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!content) {
+            toast({
+                title: 'No Content Given!!',
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            });
+            return;
+        }
         const todo = {
             id: nanoid(),
             body: content

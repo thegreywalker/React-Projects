@@ -1,23 +1,20 @@
 import React from "react";
-import { Heading, VStack, IconButton } from "@chakra-ui/react";
+import { Heading, VStack, IconButton, useColorMode } from "@chakra-ui/react";
 import TodoList from "./Components/TodoList";
 import AddTodo from "./Components/AddTodo";
-import { FaSun } from "react-icons/fa";
+import { FaSun, FaMoon } from "react-icons/fa";
 
-const initialTodos = [
-  {
-    id: 1,
-    body: "Start React Projects",
-  },
-
-  {
-    id: 2,
-    body: "Complete Chakra UI tutorial",
-  },
-];
 
 function App() {
-  const [todos, setTodos] = React.useState(initialTodos);
+  const [todos, setTodos] = React.useState(
+    () => JSON.parse(localStorage.getItem("todos")) || []
+  );
+
+    const { colorMode, toggleColorMode } = useColorMode();
+
+  React.useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos])
 
   const deleteTodos = (id) => {
     const newTodos = todos.filter((todo) => {
@@ -36,10 +33,11 @@ function App() {
   return (
     <VStack p={4}>
       <IconButton
-        icon={<FaSun />}
+        icon={ colorMode === 'light' ? <FaSun /> : <FaMoon />}
         isRound="true"
         size="lg"
         alignSelf="flex-end"
+        onClick={toggleColorMode}
       />
       <Heading
         mb="8"
