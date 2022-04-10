@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "projects": {
-    "pokedex": "apps/pokedex",
-    "pokedex-e2e": "apps/pokedex-e2e"
-  }
-}
