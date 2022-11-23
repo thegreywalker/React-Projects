@@ -1,34 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Container,
+  useColorMode,
+  Box,
+} from "@chakra-ui/react";
+import { FaSun } from "react-icons/fa";
+import { AddTask } from "./Components/AddTask/AddTask";
+import { AllTasks } from "./Components/Tasks/AllTasks";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <Container maxW="2xl" marginY="2" size="30">
+      <Box display="flex" flexDir="row-reverse">
+        <header>
+          <FaSun onClick={toggleColorMode} cursor="pointer">
+            Toggle {colorMode === "light" ? "Dark" : "Light"}
+          </FaSun>
+        </header>
+      </Box>
+      <Tabs
+        variant="soft-rounded"
+        colorScheme="green"
+        isFitted
+        borderBottomColor="green.400"
+        borderBottomWidth="3px"
+      >
+        <TabList>
+          {/* All lists are mentioned here */}
+          <Tab>Add Task</Tab>
+          <Tab>All Tasks</Tab>
+        </TabList>
+
+        <TabPanels>
+          {/* All Panels are listed here */}
+          <TabPanel>
+            <AddTask />
+          </TabPanel>
+          <TabPanel>
+            <AllTasks />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Container>
+  );
 }
 
-export default App
+export default App;
