@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Tabs,
   TabList,
@@ -13,7 +14,21 @@ import { AddTask } from "./Components/AddTask/AddTask";
 import { AllTasks } from "./Components/Tasks/AllTasks";
 
 function App() {
+  // State 
+  const [taskData, setTaskData] = React.useState([]);
+
+  // Chakra Specific imports
   const { colorMode, toggleColorMode } = useColorMode();
+
+
+  const getTask = (name, desciption) => {
+    setTaskData(oldSnap => [ ...oldSnap, {taskName: name, description: desciption, id: Math.random.toString()} ])
+  };
+
+  const handleDelete = (id) => {
+    setTaskData(oldSnap => oldSnap.filter(task => task.id !== id))
+  }
+
   return (
     <Container maxW="2xl" marginY="2" size="30">
       <Box display="flex" flexDir="row-reverse">
@@ -39,10 +54,10 @@ function App() {
         <TabPanels>
           {/* All Panels are listed here */}
           <TabPanel>
-            <AddTask />
+            <AddTask getData={getTask} />
           </TabPanel>
           <TabPanel>
-            <AllTasks />
+            <AllTasks tasks={taskData} handleDelete={handleDelete} />
           </TabPanel>
         </TabPanels>
       </Tabs>

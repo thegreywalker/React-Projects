@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Container,
   FormControl,
@@ -8,8 +9,27 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-export const AddTask = () => {
+export const AddTask = (props) => {
+  // State
+  const [taskName, setTaskName] = React.useState("");
+  const [desciption, setDescription] = React.useState("");
+  // Refs
+  const nameRef = React.useRef("");
+  const descriptionRef = React.useRef("");
   const toast = useToast();
+
+  const handleSubmit = () => {
+    toast({
+      title: "Chore Added.",
+      description: "We've added the task for you!",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+
+    props.getData(nameRef.current.value, descriptionRef.current.value);
+    nameRef.current.value = "";
+  };
 
   return (
     <Container maxW="2xl">
@@ -25,33 +45,42 @@ export const AddTask = () => {
         borderEndColor="yellow.400"
         borderEndWidth="3px"
       >
-        <FormControl isRequired>
-          <FormLabel>Task Name</FormLabel>
-          <Box px="3">
-            <Input variant="filled" placeholder="Type..." />
-          </Box>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Descripton</FormLabel>
-          <Box px="3" w="100%" display="flex" gap="6">
-            <Input variant="filled" placeholder="Describe Your Task!" />
-            <Button
-              colorScheme="purple"
-              w="20%"
-              onClick={() =>
-                toast({
-                  title: "Chore Added.",
-                  description: "We've added the task for you!",
-                  status: "success",
-                  duration: 2000,
-                  isClosable: true,
-                })
-              }
-            >
-              Submit
-            </Button>
-          </Box>
-        </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Task Name</FormLabel>
+            <Box px="3">
+              <Input
+                variant="filled"
+                placeholder="Type..."
+                ref={nameRef}
+                value={taskName}
+                onChange={() => {
+                  setTaskName(nameRef.current.value);
+                }}
+              />
+            </Box>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Descripton</FormLabel>
+            <Box px="3" w="100%" display="flex" gap="6">
+              <Input
+                variant="filled"
+                placeholder="Describe Your Task!"
+                ref={descriptionRef}
+                value={desciption}
+                onChange={() => {
+                  setDescription(descriptionRef.current.value);
+                }}
+              />
+              <Button
+                colorScheme="purple"
+                w="20%"
+                onClick={handleSubmit}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Box>
+          </FormControl>
       </Box>
     </Container>
   );

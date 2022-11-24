@@ -1,6 +1,6 @@
 import { Badge, Box, Container } from "@chakra-ui/react";
 
-export const Task = ({ taskNo }) => {
+export const Task = ({ taskName, taskDescription, handleDelete }) => {
   return (
     <Container maxW="2xl" centerContent>
       <Box
@@ -13,10 +13,10 @@ export const Task = ({ taskNo }) => {
         p="4px"
       >
         <Badge mx="2" my="2" px="2" colorScheme="teal" fontSize="lg">
-          Task {taskNo}
+          {taskName}
         </Badge>
         <Box my="4" fontSize="sm" w="100%">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          {taskDescription}
         </Box>
         <Box
           display="flex"
@@ -36,6 +36,7 @@ export const Task = ({ taskNo }) => {
             fontWeight="bold"
             fontSize="sm"
             cursor="pointer"
+            onClick={handleDelete}
           >
             Delete
           </Box>
