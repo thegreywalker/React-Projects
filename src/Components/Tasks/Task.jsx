@@ -1,6 +1,18 @@
-import { Badge, Box, Container } from "@chakra-ui/react";
+import { Badge, Box, Container, useDisclosure } from "@chakra-ui/react";
+import { CustomModal } from "../UI/CustomModal";
 
-export const Task = ({ taskName, taskDescription, handleDelete }) => {
+export const Task = ({
+  taskName,
+  taskDescription,
+  handleDelete,
+  id,
+  handleClick,
+}) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleClicks = (updatedTaskName, updatedDescription, id) => {
+    handleClick(updatedTaskName, updatedDescription, id);
+  };
+
   return (
     <Container maxW="2xl" centerContent>
       <Box
@@ -50,11 +62,22 @@ export const Task = ({ taskName, taskDescription, handleDelete }) => {
             fontWeight="bold"
             fontSize="sm"
             cursor="pointer"
+            onClick={onOpen}
           >
             Update
           </Box>
         </Box>
       </Box>
+      {isOpen && (
+        <CustomModal
+          isOpen={isOpen}
+          onClose={onClose}
+          taskName={taskName}
+          taskDescription={taskDescription}
+          handleClick={handleClicks}
+          id={id}
+        />
+      )}
     </Container>
   );
 };

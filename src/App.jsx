@@ -14,20 +14,30 @@ import { AddTask } from "./Components/AddTask/AddTask";
 import { AllTasks } from "./Components/Tasks/AllTasks";
 
 function App() {
-  // State 
+  // State
   const [taskData, setTaskData] = React.useState([]);
 
   // Chakra Specific imports
   const { colorMode, toggleColorMode } = useColorMode();
 
-
   const getTask = (name, desciption) => {
-    setTaskData(oldSnap => [ ...oldSnap, {taskName: name, description: desciption, id: Math.random.toString()} ])
+    setTaskData((oldSnap) => [
+      ...oldSnap,
+      { taskName: name, description: desciption, id: Math.random().toString() },
+    ]);
   };
 
   const handleDelete = (id) => {
-    setTaskData(oldSnap => oldSnap.filter(task => task.id !== id))
-  }
+    setTaskData((oldSnap) => oldSnap.filter((task) => task.id !== id));
+  };
+
+  const handleTaskUpdate = (updatedTaskName, updatedDescription, id) => {
+    handleDelete(id);
+    setTaskData((oldSnap) => [
+      ...oldSnap,
+      { taskName: updatedTaskName, description: updatedDescription, id: id },
+    ]); 
+  };
 
   return (
     <Container maxW="2xl" marginY="2" size="30">
@@ -57,7 +67,12 @@ function App() {
             <AddTask getData={getTask} />
           </TabPanel>
           <TabPanel>
-            <AllTasks tasks={taskData} handleDelete={handleDelete} />
+            <AllTasks
+              tasks={taskData}
+              handleDelete={handleDelete}
+              handleTaskUpdate={handleTaskUpdate}
+              length={taskData.length}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>
